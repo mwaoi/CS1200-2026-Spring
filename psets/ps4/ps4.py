@@ -91,6 +91,11 @@ class HashTable:
             return head.value
         else:
             # TODO: Implement search for opt=False
+            curr = head
+            while curr is not None:
+                if curr.key == key:
+                    return curr.value
+                else: curr = curr.next
             return None
     
     '''
@@ -112,4 +117,23 @@ class HashTable:
             return True
         else:
             # TODO: Implement delete for opt=False
+
+            curr = self.table[idx]
+            if curr is None:
+                return False
+
+            # delete head here
+            if curr.key == key:
+                self.table[idx] = curr.next
+                return True
+            
+            prev = curr
+            curr = curr.next
+
+            while curr is not None:
+                if curr.key == key:
+                    prev.next = curr.next
+                    return True
+                prev = curr 
+                curr = curr.next
             return False

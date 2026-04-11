@@ -1,4 +1,5 @@
 from itertools import product, combinations
+from collections import deque
 
 '''
 Before you start: Read the README and the Graph implementation below.
@@ -173,8 +174,27 @@ def bfs_2_coloring(G, precolored_nodes=None):
     # TODO: Complete this function by implementing two-coloring using the colors 0 and 1.
     # If there is no valid coloring, reset all the colors to None using G.reset_colors()
     
-    G.reset_colors()
-    return None
+    for start in range (G.N):
+        if start in visited:
+            continue
+        G.colors[start] = 0
+        visited.add(start)
+        q = deque([start])
+
+        while q:
+            u = q.popleft()
+
+            for v in G.edges[u]:
+                if G.colors[v] == 2:
+                    continue
+                if G.colors[v] is None:
+                    G.colors[v] = 1 - G.colors[u]
+                    visited.add(v)
+                    q.append(v)
+                elif G.colors[v] == G.colors[u]:
+                    G.reset_colors()
+                    return None
+    return G.colors
 
 
 
